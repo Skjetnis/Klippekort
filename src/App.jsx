@@ -149,7 +149,14 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="top-bar">
-        <div className="brand">{t.appTitle}</div>
+        <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+  <img
+    src="/icon-192.jpg"
+    alt="Time Treat"
+    style={{ width: 28, height: 28, borderRadius: 7 }}
+  />
+  <span>{t.appTitle}</span>
+</div>
         <div className="top-actions">
           <button
             className="btn-secondary btn-small"
@@ -343,7 +350,7 @@ function AdminApp({ t }) {
   const [theme, setTheme] = useState('cream')
   const [punches, setPunches] = useState([
     { label: 'Middag etter ditt valg', pin: randomPin() },
-    { label: 'Barnevakt en kveld', pin: randomPin() },
+    { label: 'Frikveld', pin: randomPin() },
     { label: 'Kaffe på senga', pin: randomPin() },
   ])
   const [saving, setSaving] = useState(false)
@@ -446,6 +453,11 @@ function AdminApp({ t }) {
       return (
         <>
           <div className="panel" style={{ textAlign: 'center' }}>
+            <img
+              src="/icon-192.jpg"
+              alt="Time Treat"
+              style={{ width: 64, height: 64, borderRadius: 16, marginBottom: '1rem' }}
+            />
             <h1 style={{ marginTop: 0 }}>{t.heroTitle}</h1>
             <p style={{ opacity: 0.85, marginBottom: '1.5rem' }}>{t.heroSub}</p>
             <button
