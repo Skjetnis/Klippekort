@@ -1,8 +1,8 @@
 :root {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
-  color: #1f2937;
-  background-color: #f3f4f6;
+  color: #231c19;
+  background-color: #faf7f2;
 }
 
 * {
@@ -29,9 +29,10 @@ body {
 }
 
 .brand {
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 800;
+  font-size: 1.2rem;
   letter-spacing: -0.02em;
+  color: #231c19;
 }
 
 .top-actions {
@@ -42,14 +43,16 @@ body {
 
 .panel {
   background: #ffffff;
+  border: 1px solid #ede4d8;
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(35, 28, 25, 0.05);
   margin-bottom: 1.25rem;
 }
 
 h1, h2, h3 {
   margin-top: 0;
+  letter-spacing: -0.02em;
 }
 
 label {
@@ -57,21 +60,22 @@ label {
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: 0.35rem;
-  color: #374151;
+  color: #574942;
 }
 
 input, select {
   width: 100%;
   padding: 0.65rem 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #dcd1c4;
   border-radius: 10px;
   font-size: 1rem;
   margin-bottom: 0.9rem;
-  background: #fff;
+  background: #fffdfb;
+  color: #231c19;
 }
 
 input:focus, select:focus {
-  outline: 2px solid #2563eb;
+  outline: 2px solid #d9924c;
   border-color: transparent;
 }
 
@@ -82,7 +86,7 @@ button {
   padding: 0.65rem 1rem;
   font-size: 0.95rem;
   font-weight: 600;
-  transition: opacity 0.15s, transform 0.1s;
+  transition: opacity 0.15s, transform 0.1s, background-color 0.15s;
 }
 
 button:active {
@@ -95,17 +99,25 @@ button:disabled {
 }
 
 .btn-primary {
-  background: #111827;
-  color: #ffffff;
+  background: #231c19;
+  color: #fdf6ec;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #3a2e29;
 }
 
 .btn-secondary {
-  background: #e5e7eb;
-  color: #111827;
+  background: #efe7dc;
+  color: #231c19;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #e4d8c8;
 }
 
 .btn-small {
-  padding: 0.4rem 0.75rem;
+  padding: 0.45rem 0.8rem;
   font-size: 0.85rem;
 }
 
@@ -123,18 +135,24 @@ button:disabled {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+  align-items: center;
 }
 
 .punch-input-row input {
   margin-bottom: 0;
+  flex: 1;
 }
 
 .punch-input-row .pin-field {
-  width: 95px;
+  width: 88px;
   flex: none;
   text-align: center;
   font-family: monospace;
   letter-spacing: 0.1em;
+}
+
+.punch-input-row button {
+  flex: none;
 }
 
 .error-box {
@@ -147,25 +165,25 @@ button:disabled {
 }
 
 .info-box {
-  background: #dbeafe;
-  color: #1e40af;
+  background: #fef3c7;
+  color: #92400e;
   padding: 0.75rem 1rem;
   border-radius: 10px;
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
 
-/* Klippekort-temaer */
+/* Gavekort-temaer */
 .gift-card {
   border-radius: 20px;
   padding: 1.75rem;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 32px rgba(35, 28, 25, 0.1);
 }
 
 .theme-cream {
-  background: linear-gradient(145deg, #fffdf7, #f5efe0);
-  color: #292524;
-  border: 1px solid #e7dcc8;
+  background: linear-gradient(145deg, #fffdf8, #f4ead8);
+  color: #29211d;
+  border: 1px solid #e5d5bc;
 }
 
 .theme-sage {
@@ -175,9 +193,9 @@ button:disabled {
 }
 
 .theme-midnight {
-  background: linear-gradient(145deg, #1e293b, #0f172a);
-  color: #f8fafc;
-  border: 1px solid #334155;
+  background: linear-gradient(145deg, #2b221e, #1a1412);
+  color: #fdf6ec;
+  border: 1px solid #473932;
 }
 
 .card-meta {
@@ -200,17 +218,17 @@ button:disabled {
   gap: 1rem;
   padding: 1rem;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(35, 28, 25, 0.08);
 }
 
 .theme-midnight .punch-item {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(242, 184, 114, 0.18);
 }
 
 .punch-item.redeemed {
-  opacity: 0.65;
+  opacity: 0.6;
   text-decoration: line-through;
 }
 
@@ -229,11 +247,11 @@ button:disabled {
 
 .pin-modal {
   margin-top: 1rem;
-  padding: 1rem;
+  padding: 1.1rem;
   border-radius: 14px;
   background: #ffffff;
-  color: #111827;
-  border: 2px solid #111827;
+  color: #231c19;
+  border: 2px solid #d9924c;
 }
 
 .pin-modal input {
@@ -244,7 +262,7 @@ button:disabled {
 }
 
 .admin-card-item {
-  border: 1px solid #e5e7eb;
+  border: 1px solid #ede4d8;
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 0.9rem;
@@ -253,7 +271,7 @@ button:disabled {
 .pin-list {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
-  border-top: 1px dashed #d1d5db;
+  border-top: 1px dashed #dcd1c4;
   font-size: 0.9rem;
 }
 
@@ -266,53 +284,69 @@ button:disabled {
 .code-pill {
   font-family: monospace;
   font-weight: 700;
-  background: #f3f4f6;
+  background: #f4ead8;
+  color: #231c19;
   padding: 0.15rem 0.5rem;
   border-radius: 6px;
-}/* Dark mode */
+}
+
+/* Dark mode – matcher Time Treat-ikonet */
 [data-theme="dark"] {
-  color: #f3f4f6;
-  background-color: #0f172a;
+  color: #f7f1e8;
+  background-color: #1c1614;
+}
+
+[data-theme="dark"] .brand {
+  color: #f2b872;
 }
 
 [data-theme="dark"] .panel,
 [data-theme="dark"] .pin-modal {
-  background: #1e293b;
-  color: #f3f4f6;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  background: #27201d;
+  color: #f7f1e8;
+  border-color: #3d322d;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .pin-modal {
-  border-color: #475569;
+  border-color: #f2b872;
 }
 
 [data-theme="dark"] label {
-  color: #cbd5e1;
+  color: #cbbdb3;
 }
 
 [data-theme="dark"] input,
 [data-theme="dark"] select {
-  background: #0f172a;
-  color: #f8fafc;
-  border-color: #334155;
+  background: #1c1614;
+  color: #f7f1e8;
+  border-color: #463a34;
 }
 
 [data-theme="dark"] .btn-primary {
-  background: #3b82f6;
-  color: #ffffff;
+  background: #f2b872;
+  color: #1c1614;
+}
+
+[data-theme="dark"] .btn-primary:hover:not(:disabled) {
+  background: #f7c98f;
 }
 
 [data-theme="dark"] .btn-secondary {
-  background: #334155;
-  color: #f8fafc;
+  background: #382e29;
+  color: #f7f1e8;
+}
+
+[data-theme="dark"] .btn-secondary:hover:not(:disabled) {
+  background: #483b35;
 }
 
 [data-theme="dark"] .admin-card-item,
 [data-theme="dark"] .pin-list {
-  border-color: #334155;
+  border-color: #3d322d;
 }
 
 [data-theme="dark"] .code-pill {
-  background: #0f172a;
-  color: #f8fafc;
+  background: #1c1614;
+  color: #f2b872;
 }
