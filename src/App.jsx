@@ -478,3 +478,254 @@ function AdminApp({ t }) {
             <div className="card-meta">
               <div>{t.demoFromTo}</div>
               <div>{t.progress(1, 3)}</div>
+            </div>
+            <div className="punch-grid">
+              {t.demoPunches.map((p, idx) => (
+                <div
+                  key={idx}
+                  className={`punch-item ${p.redeemed ? 'redeemed' : ''}`}
+                >
+                  <div>
+                    <strong>{p.label}</strong>
+                  </div>
+                  {p.redeemed ? (
+                    <span className="badge badge-done">{t.redeemed}</span>
+                  ) : (
+                    <span className="btn-primary btn-small">{t.redeem}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="panel" style={{ marginTop: '1rem' }}>
+            <h3 style={{ marginTop: 0 }}>{t.howItWorks}</h3>
+            <p>{t.step1}</p>
+            <p>{t.step2}</p>
+            <p style={{ marginBottom: 0 }}>{t.step3}</p>
+          </div>
+        </>
+      )
+    }
+
+    return (
+      <form className="panel" onSubmit={handleAuth}>
+        <button
+          type="button"
+          className="btn-secondary btn-small"
+          style={{ marginBottom: '1rem' }}
+          onClick={() => {
+            setShowAuth(false)
+            setAuthErr('')
+            setAuthMsg('')
+          }}
+        >
+          {t.backToLanding}
+        </button>
+        <h2>{authMode === 'login' ? t.loginTitle : t.signupTitle}</h2>
+        {authErr && <div className="error-box">{authErr}</div>}
+        {authMsg && <div className="info-box">{authMsg}</div>}
+        <label>{t.email}</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <label>{t.password}</label>
+        <input
+          type="password"
+          minLength={6}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit" className="btn-primary" style={{ width: '100%' }}>
+          {authMode === 'login' ? t.loginBtn : t.signupBtn}
+        </button>
+        <button
+          type="button"
+          className="btn-secondary"
+          style={{ width: '100%', marginTop: '0.6rem' }}
+          onClick={() => {
+            setAuthMode(authMode === 'login' ? 'signup' : 'login')
+            setAuthErr('')
+            setAuthMsg('')
+          }}
+        >
+          {authMode === 'login' ? t.switchToSignup : t.switchToLogin}
+        </button>
+      </form>
+    )
+  }
+
+  return (
+    <>
+      <div className="panel">
+        <div className="top-bar" style={{ marginBottom: '1rem' }}>
+          <h2 style={{ margin: 0 }}>{t.createCard}</h2>
+          <button
+            className="btn-secondary btn-small"
+            onClick={() => supabase.auth.signOut()}
+          >
+            {t.logout}
+          </button>
+        </div>
+
+        <form onSubmit={handleCreateCard}>
+          <label>{t.cardTitle}</label>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="F.eks. Bursdagsgave til mamma"
+            required
+          />
+          <div className="row">
+            <div>
+              <label>{t.sender}</label>
+              <input
+                value={sender}
+                onChange={(e) => setSender(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>{t.recipient}</label>
+              <input
+                value={recipient}
+                onChange={(e) => setRecipient(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
+          <label>{t.theme}</label>
+          <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+            <option value="cream">Krem / Cream</option>
+            <option value="sage">Salviegrønn / Sage</option>
+            <option value="midnight">Midnatt / Midnight</option>
+          </select>
+
+          <label>{t.punchesLabel}</label>
+          {punches.map((p, idx) => (
+            <div className="punch-input-row" key={idx}>
+              <input
+                value={p.label}
+                placeholder={`Klipp #${idx + 1}`}
+                onChange={(e) => {
+                  const next = [...punches]
+                  next[idx].label = e.target.value
+                  setPunches(next)
+                }}
+                required
+              />
+              <input
+                className="pin-field"
+                type="text"
+                inputMode="numeric"
+                maxLength={4}
+                value={p.pin}
+                onChange={(e) => {
+                  const next = [...punches]
+                  next[idx].pin = e.target.value.replace(/\D/g, '')
+                  setPunches(next)
+                }}
+                required
+              />
+              {punches.length > 1 && (
+                <button
+                  type="button"
+                  className="btn-secondary btn-small"
+                  onClick={() =>
+                    setPunches(punches.filter((_, i) => i !== idx))
+                  }
+                  aria-label="Fjern"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+          ))}
+
+          <div className="row" style={{ marginTop: '0.75rem' }}>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() =>
+                setPunches([...punches, { label: '', pin: randomPin() }])
+              }
+            >
+              {t.addPunch}
+            </button>
+            <button type="submit" className="btn-primary" disabled={saving}>
+              {t.saveCard}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div className="panel">
+        <h2>{t.yourCards}</h2>
+        {cards.length === 0 ? (
+          <p>{t.noCards}</p>
+        ) : (
+          cards.map((c) => {
+            const sortedPunches = [...(c.punches || [])].sort(
+              (a, b) => a.sort_order - b.sort_order
+            )
+            return (
+              <div className="admin-card-item" key={c.id}>
+                <strong>{c.title}</strong>
+                <div className="card-meta" style={{ marginBottom: '0.6rem' }}>
+                  {t.fromTo(c.sender, c.recipient)}
+                </div>
+                <div className="row">
+                  <button
+                    className="btn-primary btn-small"
+                    onClick={() => copyCardLink(c.id)}
+                  >
+                    {copiedId === c.id ? t.copied : t.copyLink}
+                  </button>
+                  <button
+                    className="btn-secondary btn-small"
+                    onClick={() =>
+                      window.open(
+                        `${window.location.origin}/?card=${c.id}`,
+                        '_blank'
+                      )
+                    }
+                  >
+                    {t.openCard}
+                  </button>
+                  <button
+                    className="btn-secondary btn-small"
+                    onClick={() =>
+                      setOpenPins({ ...openPins, [c.id]: !openPins[c.id] })
+                    }
+                  >
+                    {openPins[c.id] ? t.hidePins : t.showPins}
+                  </button>
+                </div>
+
+                {openPins[c.id] && (
+                  <div className="pin-list">
+                    {sortedPunches.map((p) => (
+                      <div className="pin-list-row" key={p.id}>
+                        <span>
+                          {p.label} {p.redeemed ? '✓' : ''}
+                        </span>
+                        <span className="code-pill">
+                          {p.punch_secrets?.pin_code || '----'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })
+        )}
+      </div>
+    </>
+  )
+}
