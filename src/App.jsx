@@ -3,9 +3,27 @@ import { supabase } from './supabaseClient'
 
 const TEXT = {
   no: {
-    backToMenu: '← Back to Menu',
+    backToMenu: '← Tilbake til meny',
+    backToLanding: '← Tilbake',
     redeemSuccess: 'Klippet er nå registrert som brukt!',
+    errServer: 'Kunne ikke kontakte serveren.',
     appTitle: 'Time Treat',
+    heroTitle: 'Gi bort tid, ikke bare ting.',
+    heroSub:
+      'Lag et personlig, digitalt klippekort på 1 minutt. Send lenken som gave – mottakeren trenger verken app eller innlogging.',
+    heroCta: 'Lag ditt første kort gratis',
+    heroLogin: 'Jeg har allerede konto',
+    demoTitle: 'Julegave til deg',
+    demoFromTo: 'Til Mamma · Fra Per',
+    demoPunches: [
+      { label: 'Middag etter ditt valg', redeemed: true },
+      { label: 'Barnevakt en helg', redeemed: false },
+      { label: 'Kaffe på senga', redeemed: false },
+    ],
+    howItWorks: 'Slik fungerer det',
+    step1: '1. Velg klipp og personlig tema.',
+    step2: '2. Del den unike lenken (eller legg den i et fysisk kort).',
+    step3: '3. Mottakeren løser inn klippene med 4-sifret PIN-kode fra deg.',
     loginTitle: 'Logg inn som giver',
     signupTitle: 'Opprett giverkonto',
     email: 'E-post',
@@ -15,16 +33,16 @@ const TEXT = {
     switchToSignup: 'Ny her? Opprett konto',
     switchToLogin: 'Har du konto? Logg inn',
     logout: 'Logg ut',
-    createCard: 'Lag nytt klippekort',
+    createCard: 'Lag nytt kort',
     cardTitle: 'Tittel på kortet',
     sender: 'Fra',
     recipient: 'Til',
     theme: 'Tema',
     punchesLabel: 'Klipp og 4-sifrede PIN-koder',
     addPunch: '+ Legg til klipp',
-    saveCard: 'Opprett klippekort',
-    yourCards: 'Dine klippekort',
-    noCards: 'Du har ikke laget noen klippekort ennå.',
+    saveCard: 'Opprett kort',
+    yourCards: 'Dine kort',
+    noCards: 'Du har ikke laget noen kort ennå.',
     copyLink: 'Kopier lenke',
     copied: 'Kopiert!',
     showPins: 'Vis PIN-koder',
@@ -38,16 +56,35 @@ const TEXT = {
     progress: (used, total) => `${used} av ${total} klipp brukt`,
     fromTo: (s, r) => `Til ${r} · Fra ${s}`,
     loading: 'Laster...',
-    cardNotFound: 'Fant ikke klippekortet. Sjekk at lenken er riktig.',
+    cardNotFound: 'Fant ikke kortet. Sjekk at lenken er riktig.',
     errInvalidPin: (left) => `Feil PIN-kode. ${left} forsøk igjen før sperre.`,
     errLocked: 'For mange feilforsøk. Dette klippet er sperret i 15 minutter.',
     errAlready: 'Dette klippet er allerede brukt.',
-    signupCheckEmail: 'Konto opprettet! Sjekk e-posten din for bekreftelseslenke før du logger inn.',
+    signupCheckEmail:
+      'Konto opprettet! Sjekk e-posten din for bekreftelseslenke før du logger inn.',
   },
   en: {
     backToMenu: '← Back to menu',
-    redeemSuccess: 'Punch successfully redeemed!',
+    backToLanding: '← Back',
+    redeemSuccess: 'Treat successfully redeemed!',
+    errServer: 'Could not reach the server.',
     appTitle: 'Time Treat',
+    heroTitle: 'Gift your time, not just things.',
+    heroSub:
+      'Create a personal digital punch card in 1 minute. Share the link as a gift — no app or login required for the recipient.',
+    heroCta: 'Create your first card free',
+    heroLogin: 'I already have an account',
+    demoTitle: 'Holiday Gift for You',
+    demoFromTo: 'For Mom · From Per',
+    demoPunches: [
+      { label: 'Dinner of your choice', redeemed: true },
+      { label: 'Babysitting for a weekend', redeemed: false },
+      { label: 'Coffee in bed', redeemed: false },
+    ],
+    howItWorks: 'How it works',
+    step1: '1. Add your treats and pick a theme.',
+    step2: '2. Share the unique link (or print it in a gift card).',
+    step3: '3. The recipient redeems each treat using a 4-digit PIN from you.',
     loginTitle: 'Sign in as giver',
     signupTitle: 'Create giver account',
     email: 'Email',
@@ -57,16 +94,16 @@ const TEXT = {
     switchToSignup: 'New here? Create account',
     switchToLogin: 'Have an account? Sign in',
     logout: 'Sign out',
-    createCard: 'Create new punch card',
+    createCard: 'Create new card',
     cardTitle: 'Card title',
     sender: 'From',
     recipient: 'To',
     theme: 'Theme',
-    punchesLabel: 'Punches & 4-digit PINs',
-    addPunch: '+ Add punch',
-    saveCard: 'Create punch card',
-    yourCards: 'Your punch cards',
-    noCards: 'You have not created any punch cards yet.',
+    punchesLabel: 'Treats & 4-digit PINs',
+    addPunch: '+ Add treat',
+    saveCard: 'Create card',
+    yourCards: 'Your cards',
+    noCards: 'You have not created any cards yet.',
     copyLink: 'Copy link',
     copied: 'Copied!',
     showPins: 'Show PINs',
@@ -74,17 +111,18 @@ const TEXT = {
     openCard: 'Open card',
     redeem: 'Redeem',
     redeemed: 'Used',
-    enterPin: 'Enter the 4-digit PIN to redeem this punch:',
-    confirmPin: 'Confirm punch',
+    enterPin: 'Enter the 4-digit PIN to redeem this treat:',
+    confirmPin: 'Confirm',
     cancel: 'Cancel',
-    progress: (used, total) => `${used} of ${total} punches used`,
+    progress: (used, total) => `${used} of ${total} used`,
     fromTo: (s, r) => `For ${r} · From ${s}`,
     loading: 'Loading...',
-    cardNotFound: 'Punch card not found. Please check the link.',
+    cardNotFound: 'Card not found. Please check the link.',
     errInvalidPin: (left) => `Incorrect PIN. ${left} attempts remaining.`,
     errLocked: 'Too many failed attempts. Locked for 15 minutes.',
-    errAlready: 'This punch has already been redeemed.',
-    signupCheckEmail: 'Account created! Check your email for a confirmation link before signing in.',
+    errAlready: 'This treat has already been redeemed.',
+    signupCheckEmail:
+      'Account created! Check your email for a confirmation link before signing in.',
   },
 }
 
@@ -177,7 +215,7 @@ function PublicCardView({ cardId, t }) {
     setSubmitting(false)
 
     if (rpcError || !data) {
-      setError('Kunne ikke kontakte serveren.')
+      setError(t.errServer)
       return
     }
 
@@ -288,7 +326,8 @@ function PublicCardView({ cardId, t }) {
 
 function AdminApp({ t }) {
   const [session, setSession] = useState(null)
-  const [authMode, setAuthMode] = useState('login')
+  const [showAuth, setShowAuth] = useState(false)
+  const [authMode, setAuthMode] = useState('signup')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [authMsg, setAuthMsg] = useState('')
@@ -298,7 +337,6 @@ function AdminApp({ t }) {
   const [openPins, setOpenPins] = useState({})
   const [copiedId, setCopiedId] = useState(null)
 
-  // Skjema for nytt kort
   const [title, setTitle] = useState('')
   const [sender, setSender] = useState('')
   const [recipient, setRecipient] = useState('')
@@ -404,195 +442,39 @@ function AdminApp({ t }) {
   }
 
   if (!session) {
-    return (
-      <form className="panel" onSubmit={handleAuth}>
-        <h2>{authMode === 'login' ? t.loginTitle : t.signupTitle}</h2>
-        {authErr && <div className="error-box">{authErr}</div>}
-        {authMsg && <div className="info-box">{authMsg}</div>}
-        <label>{t.email}</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label>{t.password}</label>
-        <input
-          type="password"
-          minLength={6}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" className="btn-primary" style={{ width: '100%' }}>
-          {authMode === 'login' ? t.loginBtn : t.signupBtn}
-        </button>
-        <button
-          type="button"
-          className="btn-secondary"
-          style={{ width: '100%', marginTop: '0.6rem' }}
-          onClick={() => {
-            setAuthMode(authMode === 'login' ? 'signup' : 'login')
-            setAuthErr('')
-            setAuthMsg('')
-          }}
-        >
-          {authMode === 'login' ? t.switchToSignup : t.switchToLogin}
-        </button>
-      </form>
-    )
-  }
-
-  return (
-    <>
-      <div className="panel">
-        <div className="top-bar" style={{ marginBottom: '1rem' }}>
-          <h2 style={{ margin: 0 }}>{t.createCard}</h2>
-          <button
-            className="btn-secondary btn-small"
-            onClick={() => supabase.auth.signOut()}
-          >
-            {t.logout}
-          </button>
-        </div>
-
-        <form onSubmit={handleCreateCard}>
-          <label>{t.cardTitle}</label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="F.eks. Bursdagsgave til mamma"
-            required
-          />
-          <div className="row">
-            <div>
-              <label>{t.sender}</label>
-              <input
-                value={sender}
-                onChange={(e) => setSender(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>{t.recipient}</label>
-              <input
-                value={recipient}
-                onChange={(e) => setRecipient(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-
-          <label>{t.theme}</label>
-          <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-            <option value="cream">Krem / Cream</option>
-            <option value="sage">Salviegrønn / Sage</option>
-            <option value="midnight">Midnatt / Midnight</option>
-          </select>
-
-          <label>{t.punchesLabel}</label>
-          {punches.map((p, idx) => (
-            <div className="punch-input-row" key={idx}>
-              <input
-                value={p.label}
-                placeholder={`Klipp #${idx + 1}`}
-                onChange={(e) => {
-                  const next = [...punches]
-                  next[idx].label = e.target.value
-                  setPunches(next)
-                }}
-                required
-              />
-              <input
-                className="pin-field"
-                maxLength={4}
-                value={p.pin}
-                onChange={(e) => {
-                  const next = [...punches]
-                  next[idx].pin = e.target.value.replace(/\D/g, '')
-                  setPunches(next)
-                }}
-                required
-              />
-            </div>
-          ))}
-
-          <div className="row" style={{ marginTop: '0.75rem' }}>
+    if (!showAuth) {
+      return (
+        <>
+          <div className="panel" style={{ textAlign: 'center' }}>
+            <h1 style={{ marginTop: 0 }}>{t.heroTitle}</h1>
+            <p style={{ opacity: 0.85, marginBottom: '1.5rem' }}>{t.heroSub}</p>
             <button
-              type="button"
-              className="btn-secondary"
-              onClick={() =>
-                setPunches([...punches, { label: '', pin: randomPin() }])
-              }
+              className="btn-primary"
+              style={{ width: '100%', marginBottom: '0.6rem' }}
+              onClick={() => {
+                setAuthMode('signup')
+                setShowAuth(true)
+              }}
             >
-              {t.addPunch}
+              {t.heroCta}
             </button>
-            <button type="submit" className="btn-primary" disabled={saving}>
-              {t.saveCard}
+            <button
+              className="btn-secondary"
+              style={{ width: '100%' }}
+              onClick={() => {
+                setAuthMode('login')
+                setShowAuth(true)
+              }}
+            >
+              {t.heroLogin}
             </button>
           </div>
-        </form>
-      </div>
 
-      <div className="panel">
-        <h2>{t.yourCards}</h2>
-        {cards.length === 0 ? (
-          <p>{t.noCards}</p>
-        ) : (
-          cards.map((c) => {
-            const sortedPunches = [...(c.punches || [])].sort(
-              (a, b) => a.sort_order - b.sort_order
-            )
-            return (
-              <div className="admin-card-item" key={c.id}>
-                <strong>{c.title}</strong>
-                <div className="card-meta" style={{ marginBottom: '0.6rem' }}>
-                  {t.fromTo(c.sender, c.recipient)}
-                </div>
-                <div className="row">
-                  <button
-                    className="btn-primary btn-small"
-                    onClick={() => copyCardLink(c.id)}
-                  >
-                    {copiedId === c.id ? t.copied : t.copyLink}
-                  </button>
-                  <button
-                    className="btn-secondary btn-small"
-                    onClick={() =>
-                      window.open(`${window.location.origin}/?card=${c.id}`, '_blank')
-                    }
-                  >
-                    {t.openCard}
-                  </button>
-                  <button
-                    className="btn-secondary btn-small"
-                    onClick={() =>
-                      setOpenPins({ ...openPins, [c.id]: !openPins[c.id] })
-                    }
-                  >
-                    {openPins[c.id] ? t.hidePins : t.showPins}
-                  </button>
-                </div>
-
-                {openPins[c.id] && (
-                  <div className="pin-list">
-                    {sortedPunches.map((p) => (
-                      <div className="pin-list-row" key={p.id}>
-                        <span>
-                          {p.label} {p.redeemed ? '✓' : ''}
-                        </span>
-                        <span className="code-pill">
-                          {p.punch_secrets?.pin_code || '----'}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )
-          })
-        )}
-      </div>
-    </>
-  )
-}
+          <div
+            className="gift-card theme-cream"
+            style={{ marginTop: '1rem', pointerEvents: 'none' }}
+          >
+            <h2 style={{ marginTop: 0 }}>{t.demoTitle}</h2>
+            <div className="card-meta">
+              <div>{t.demoFromTo}</div>
+              <div>{t.progress(1, 3)}</div>
