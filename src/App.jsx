@@ -148,16 +148,33 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <header className="top-bar">
-        <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-  <img
-    src="/icon-192.jpg"
-    alt="Time Treat"
-    style={{ width: 28, height: 28, borderRadius: 7 }}
-  />
-  <span>{t.appTitle}</span>
-</div>
-        <div className="top-actions">
+  <header
+        className="top-bar"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr',
+          alignItems: 'center',
+        }}
+      >
+        <div />
+        <div
+          className="brand"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.6rem',
+            fontSize: 'clamp(1.25rem, 4.5vw, 1.75rem)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <img
+            src="/icon-192.jpg"
+            alt="Time Treat"
+            style={{ width: 36, height: 36, borderRadius: 9 }}
+          />
+          <span>{t.appTitle}</span>
+        </div>
+        <div className="top-actions" style={{ justifySelf: 'end' }}>
           <button
             className="btn-secondary btn-small"
             onClick={() => setDarkMode(!darkMode)}
