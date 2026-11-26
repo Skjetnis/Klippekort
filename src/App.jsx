@@ -148,7 +148,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
-  <header
+ <header
         className="top-bar"
         style={{
           display: 'grid',
@@ -156,7 +156,14 @@ export default function App() {
           alignItems: 'center',
         }}
       >
-        <div />
+        <div style={{ justifySelf: 'start' }}>
+          <button
+            className="btn-secondary btn-small"
+            onClick={() => setDarkMode(!darkMode)}
+          >
+            {darkMode ? '☀️' : '🌙'}
+          </button>
+        </div>
         <div
           className="brand"
           style={{
@@ -174,13 +181,7 @@ export default function App() {
           />
           <span>{t.appTitle}</span>
         </div>
-        <div className="top-actions" style={{ justifySelf: 'end' }}>
-          <button
-            className="btn-secondary btn-small"
-            onClick={() => setDarkMode(!darkMode)}
-          >
-            {darkMode ? '☀️' : '🌙'}
-          </button>
+        <div style={{ justifySelf: 'end' }}>
           <button
             className="btn-secondary btn-small"
             onClick={() => setLang(lang === 'no' ? 'en' : 'no')}
