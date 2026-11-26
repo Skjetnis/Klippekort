@@ -3,9 +3,9 @@ import { supabase } from './supabaseClient'
 
 const TEXT = {
   no: {
-    backToMenu: '← Tilbake til menyen',
+    backToMenu: '← Back to Menu',
     redeemSuccess: 'Klippet er nå registrert som brukt!',
-    appTitle: 'Digitalt Klippekort',
+    appTitle: 'Time Treat',
     loginTitle: 'Logg inn som giver',
     signupTitle: 'Opprett giverkonto',
     email: 'E-post',
@@ -47,7 +47,7 @@ const TEXT = {
   en: {
     backToMenu: '← Back to menu',
     redeemSuccess: 'Punch successfully redeemed!',
-    appTitle: 'Digital Punch Card',
+    appTitle: 'Time Treat',
     loginTitle: 'Sign in as giver',
     signupTitle: 'Create giver account',
     email: 'Email',
