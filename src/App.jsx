@@ -762,7 +762,7 @@ function AdminApp({ t }) {
               (a, b) => a.sort_order - b.sort_order
             )
             return (
-             <div className="admin-card-item" key={c.id}>
+              <div className="admin-card-item" key={c.id}>
                 <strong>{c.title}</strong>
                 <div className="card-meta" style={{ marginBottom: '0.6rem' }}>
                   {t.fromTo(c.sender, c.recipient)}
@@ -842,70 +842,6 @@ function AdminApp({ t }) {
                         {t.printQr}
                       </button>
                     </div>
-                  </div>
-                )}
-              </div>
-                      )
-                    }
-                  >
-                    {t.openCard}
-                  </button>
-                  <button
-                    className="btn-secondary btn-small"
-                    onClick={() =>
-                      setOpenPins({ ...openPins, [c.id]: !openPins[c.id] })
-                    }
-                  >
-                    {openPins[c.id] ? t.hidePins : t.showPins}
-                  </button>
-                  <button
-                    className="btn-secondary btn-small"
-                    onClick={() =>
-                      setOpenQr({ ...openQr, [c.id]: !openQr[c.id] })
-                    }
-                  >
-                    {openQr[c.id] ? t.hideQr : t.showQr}
-                  </button>
-                  {openQr[c.id] && (
-                  <div
-                    style={{
-                      marginTop: '1rem',
-                      padding: '1rem',
-                      textAlign: 'center',
-                      background: '#ffffff',
-                      color: '#231c19',
-                      borderRadius: 12,
-                    }}
-                  >
-                    <QRCodeSVG
-                      id={`qr-${c.id}`}
-                      value={`${window.location.origin}/?card=${c.id}`}
-                      size={180}
-                    />
-                    <div style={{ marginTop: '0.75rem' }}>
-                      <button
-                        className="btn-primary btn-small"
-                        onClick={() => printQrCard(c)}
-                      >
-                        {t.printQr}
-                      </button>
-                    </div>
-                  </div>
-                )}
-                </div>
-
-                {openPins[c.id] && (
-                  <div className="pin-list">
-                    {sortedPunches.map((p) => (
-                      <div className="pin-list-row" key={p.id}>
-                        <span>
-                          {p.label} {p.redeemed ? '✓' : ''}
-                        </span>
-                        <span className="code-pill">
-                          {p.punch_secrets?.pin_code || '----'}
-                        </span>
-                      </div>
-                    ))}
                   </div>
                 )}
               </div>
