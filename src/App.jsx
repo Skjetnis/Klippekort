@@ -138,7 +138,11 @@ const TEXT = {
 const randomPin = () => String(Math.floor(1000 + Math.random() * 9000))
 
 export default function App() {
-  const [lang, setLang] = useState('no')
+ const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'no')
+
+  useEffect(() => {
+    localStorage.setItem('lang', lang)
+  }, [lang])
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem('theme') === 'dark'
   )
@@ -215,7 +219,7 @@ function PublicCardView({ cardId, t }) {
   const [activePunch, setActivePunch] = useState(null)
   const [pinInput, setPinInput] = useState('')
   const [error, setError] = useState('')
-  const [successMsg, setSuccessMsg] = useState('')
+  const [redeemSuccess, setRedeemSuccess] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
@@ -256,7 +260,7 @@ function PublicCardView({ cardId, t }) {
     if (data.success) {
       setActivePunch(null)
       setPinInput('')
-      setSuccessMsg(t.redeemSuccess)
+      setRedeemSuccess(true)
       loadCard()
     } else if (data.error === 'invalid_pin') {
       setError(t.errInvalidPin(data.attempts_left))
@@ -302,7 +306,7 @@ function PublicCardView({ cardId, t }) {
 
       <div className="ticket-divider" />
 
-      {successMsg && <div className="info-box">{successMsg}</div>}
+      {redeemSuccess && <div className="info-box">{t.redeemSuccess}</div>}
 
       <div className="punch-grid">
         {card.punches.map((punch) => (
@@ -323,7 +327,7 @@ function PublicCardView({ cardId, t }) {
                   setActivePunch(punch)
                   setPinInput('')
                   setError('')
-                  setSuccessMsg('')
+                  setRedeemSuccess(false)
                 }}
               >
                 {t.redeem}
