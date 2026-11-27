@@ -262,7 +262,10 @@ function PublicCardView({ cardId, t }) {
   if (loading) return <div className="panel">{t.loading}</div>
   if (!card) return <div className="panel">{t.cardNotFound}</div>
 
-  const usedCount = card.punches.filter((p) => p.redeemed).length
+ const usedCount = card.punches.filter((p) => p.redeemed).length
+  const progressPct = card.punches.length
+    ? Math.round((usedCount / card.punches.length) * 100)
+    : 0
 
   return (
     <div className={`gift-card theme-${card.theme || 'cream'}`}>
@@ -276,11 +279,19 @@ function PublicCardView({ cardId, t }) {
         </button>
       )}
 
-      <h1>{card.title}</h1>
+      <h1 style={{ marginBottom: '0.35rem' }}>{card.title}</h1>
       <div className="card-meta">
         <div>{t.fromTo(card.sender, card.recipient)}</div>
         <div>{t.progress(usedCount, card.punches.length)}</div>
+        <div className="ticket-progress-track">
+          <div
+            className="ticket-progress-fill"
+            style={{ width: `${progressPct}%` }}
+          />
+        </div>
       </div>
+
+      <div className="ticket-divider" />
 
       {successMsg && <div className="info-box">{successMsg}</div>}
 
@@ -290,8 +301,9 @@ function PublicCardView({ cardId, t }) {
             key={punch.id}
             className={`punch-item ${punch.redeemed ? 'redeemed' : ''}`}
           >
-            <div>
-              <strong>{punch.label}</strong>
+            <div className="punch-left">
+              <span className="punch-stamp">{punch.redeemed ? '✓' : ''}</span>
+              <strong className="punch-label">{punch.label}</strong>
             </div>
             {punch.redeemed ? (
               <span className="badge badge-done">{t.redeemed}</span>
@@ -499,8 +511,7 @@ function AdminApp({ t }) {
               {t.heroLogin}
             </button>
           </div>
-
-          <div
+<div
             className="gift-card theme-cream"
             style={{ marginTop: '1rem', pointerEvents: 'none' }}
           >
