@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
+import { QRCodeSVG } from 'qrcode.react'
 
 const TEXT = {
   no: {
@@ -13,15 +14,15 @@ const TEXT = {
       'Lag et personlig, digitalt klippekort på 1 minutt. Send lenken som gave – mottakeren trenger verken app eller innlogging.',
     heroCta: 'Lag ditt første kort gratis',
     heroLogin: 'Jeg har allerede konto',
-    demoTitle: 'Julegave til deg',
-    demoFromTo: 'Til Mamma · Fra Per',
+    demoTitle: 'Gave til deg',
+    demoFromTo: 'Til kjæresten · Fra kjæresten ',
     demoPunches: [
       { label: 'Middag etter ditt valg', redeemed: true },
-      { label: 'Barnevakt en helg', redeemed: false },
+      { label: '10 min massaje', redeemed: false },
       { label: 'Kaffe på senga', redeemed: false },
     ],
     howItWorks: 'Slik fungerer det',
-    step1: '1. Velg klipp og personlig tema.',
+    step1: '1. Velk klipp og fyll ut og velg personlig tema.',
     step2: '2. Del den unike lenken (eller legg den i et fysisk kort).',
     step3: '3. Mottakeren løser inn klippene med 4-sifret PIN-kode fra deg.',
     loginTitle: 'Logg inn som giver',
@@ -48,6 +49,10 @@ const TEXT = {
     showPins: 'Vis PIN-koder',
     hidePins: 'Skjul PIN-koder',
     openCard: 'Åpne kort',
+    showQr: 'QR-kode',
+    hideQr: 'Skjul QR',
+    printQr: 'Skriv ut QR',
+    scanToOpen: 'Skann QR-koden med mobilen for å åpne kortet ditt',
     redeem: 'Løs inn',
     redeemed: 'Brukt',
     enterPin: 'Skriv inn 4-sifret PIN-kode for å bruke klippet:',
@@ -75,10 +80,10 @@ const TEXT = {
     heroCta: 'Create your first card free',
     heroLogin: 'I already have an account',
     demoTitle: 'Holiday Gift for You',
-    demoFromTo: 'For Mom · From Per',
+    demoFromTo: 'For the one · From the other one',
     demoPunches: [
       { label: 'Dinner of your choice', redeemed: true },
-      { label: 'Babysitting for a weekend', redeemed: false },
+      { label: '10 min massage', redeemed: false },
       { label: 'Coffee in bed', redeemed: false },
     ],
     howItWorks: 'How it works',
@@ -109,6 +114,10 @@ const TEXT = {
     showPins: 'Show PINs',
     hidePins: 'Hide PINs',
     openCard: 'Open card',
+    showQr: 'QR code',
+    hideQr: 'Hide QR',
+    printQr: 'Print QR',
+    scanToOpen: 'Scan the QR code with your phone to open your card',
     redeem: 'Redeem',
     redeemed: 'Used',
     enterPin: 'Enter the 4-digit PIN to redeem this treat:',
@@ -372,6 +381,7 @@ function AdminApp({ t }) {
 
   const [cards, setCards] = useState([])
   const [openPins, setOpenPins] = useState({})
+  const [openQr, setOpenQr] = useState({})
   const [copiedId, setCopiedId] = useState(null)
 
   const [title, setTitle] = useState('')
@@ -476,6 +486,36 @@ function AdminApp({ t }) {
     navigator.clipboard.writeText(url)
     setCopiedId(id)
     setTimeout(() => setCopiedId(null), 2000)
+  }
+  const printQrCard = (card) => {
+    const svgEl = document.getElementById(`qr-${card.id}`)
+    if (!svgEl) return
+    const win = window.open('', '_blank', 'width=500,height=650')
+    if (!win) return
+    win.document.write(`
+      <html>
+        <head>
+          <title>${card.title}</title>
+          <style>
+            body { font-family: system-ui, sans-serif; text-align: center; padding: 40px; color: #231c19; }
+            .box { border: 2px dashed #d9924c; border-radius: 20px; padding: 32px; max-width: 360px; margin: 0 auto; }
+            h1 { margin: 0 0 8px; font-size: 24px; }
+            .meta { color: #574942; margin-bottom: 24px; font-size: 15px; }
+            .hint { margin-top: 20px; font-size: 13px; color: #574942; }
+          </style>
+        </head>
+        <body>
+          <div class="box">
+            <h1>${card.title}</h1>
+            <div class="meta">${t.fromTo(card.sender, card.recipient)}</div>
+            ${svgEl.outerHTML}
+            <div class="hint">${t.scanToOpen}</div>
+          </div>
+          <script>window.onload = () => { window.print(); window.close(); }</script>
+        </body>
+      </html>
+    `)
+    win.document.close()
   }
 
   if (!session) {
@@ -746,6 +786,40 @@ function AdminApp({ t }) {
                   >
                     {openPins[c.id] ? t.hidePins : t.showPins}
                   </button>
+                  <button
+                    className="btn-secondary btn-small"
+                    onClick={() =>
+                      setOpenQr({ ...openQr, [c.id]: !openQr[c.id] })
+                    }
+                  >
+                    {openQr[c.id] ? t.hideQr : t.showQr}
+                  </button>
+                  {openQr[c.id] && (
+                  <div
+                    style={{
+                      marginTop: '1rem',
+                      padding: '1rem',
+                      textAlign: 'center',
+                      background: '#ffffff',
+                      color: '#231c19',
+                      borderRadius: 12,
+                    }}
+                  >
+                    <QRCodeSVG
+                      id={`qr-${c.id}`}
+                      value={`${window.location.origin}/?card=${c.id}`}
+                      size={180}
+                    />
+                    <div style={{ marginTop: '0.75rem' }}>
+                      <button
+                        className="btn-primary btn-small"
+                        onClick={() => printQrCard(c)}
+                      >
+                        {t.printQr}
+                      </button>
+                    </div>
+                  </div>
+                )}
                 </div>
 
                 {openPins[c.id] && (
