@@ -18,11 +18,11 @@ const TEXT = {
     demoFromTo: 'Til kjæresten · Fra kjæresten ',
     demoPunches: [
       { label: 'Middag etter ditt valg', redeemed: true },
-      { label: '10 min massaje', redeemed: false },
+      { label: '10 min massasje', redeemed: false },
       { label: 'Kaffe på senga', redeemed: false },
     ],
     howItWorks: 'Slik fungerer det',
-    step1: '1. Velk klipp og fyll ut og velg personlig tema.',
+    step1: '1. Velg klipp og personlig tema.',
     step2: '2. Del den unike lenken (eller legg den i et fysisk kort).',
     step3: '3. Mottakeren løser inn klippene med 4-sifret PIN-kode fra deg.',
     loginTitle: 'Logg inn som giver',
@@ -555,19 +555,26 @@ function AdminApp({ t }) {
             className="gift-card theme-cream"
             style={{ marginTop: '1rem', pointerEvents: 'none' }}
           >
-            <h2 style={{ marginTop: 0 }}>{t.demoTitle}</h2>
+            <h2 style={{ marginTop: 0, marginBottom: '0.35rem' }}>
+              {t.demoTitle}
+            </h2>
             <div className="card-meta">
               <div>{t.demoFromTo}</div>
               <div>{t.progress(1, 3)}</div>
+              <div className="ticket-progress-track">
+                <div className="ticket-progress-fill" style={{ width: '33%' }} />
+              </div>
             </div>
+            <div className="ticket-divider" />
             <div className="punch-grid">
               {t.demoPunches.map((p, idx) => (
                 <div
                   key={idx}
                   className={`punch-item ${p.redeemed ? 'redeemed' : ''}`}
                 >
-                  <div>
-                    <strong>{p.label}</strong>
+                  <div className="punch-left">
+                    <span className="punch-stamp">{p.redeemed ? '✓' : ''}</span>
+                    <strong className="punch-label">{p.label}</strong>
                   </div>
                   {p.redeemed ? (
                     <span className="badge badge-done">{t.redeemed}</span>
@@ -755,12 +762,12 @@ function AdminApp({ t }) {
               (a, b) => a.sort_order - b.sort_order
             )
             return (
-              <div className="admin-card-item" key={c.id}>
+             <div className="admin-card-item" key={c.id}>
                 <strong>{c.title}</strong>
                 <div className="card-meta" style={{ marginBottom: '0.6rem' }}>
                   {t.fromTo(c.sender, c.recipient)}
                 </div>
-                <div className="row">
+                <div className="row" style={{ flexWrap: 'wrap' }}>
                   <button
                     className="btn-primary btn-small"
                     onClick={() => copyCardLink(c.id)}
@@ -773,6 +780,71 @@ function AdminApp({ t }) {
                       window.open(
                         `${window.location.origin}/?card=${c.id}`,
                         '_blank'
+                      )
+                    }
+                  >
+                    {t.openCard}
+                  </button>
+                  <button
+                    className="btn-secondary btn-small"
+                    onClick={() =>
+                      setOpenPins({ ...openPins, [c.id]: !openPins[c.id] })
+                    }
+                  >
+                    {openPins[c.id] ? t.hidePins : t.showPins}
+                  </button>
+                  <button
+                    className="btn-secondary btn-small"
+                    onClick={() =>
+                      setOpenQr({ ...openQr, [c.id]: !openQr[c.id] })
+                    }
+                  >
+                    {openQr[c.id] ? t.hideQr : t.showQr}
+                  </button>
+                </div>
+
+                {openPins[c.id] && (
+                  <div className="pin-list">
+                    {sortedPunches.map((p) => (
+                      <div className="pin-list-row" key={p.id}>
+                        <span>
+                          {p.label} {p.redeemed ? '✓' : ''}
+                        </span>
+                        <span className="code-pill">
+                          {p.punch_secrets?.pin_code || '----'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {openQr[c.id] && (
+                  <div
+                    style={{
+                      marginTop: '1rem',
+                      padding: '1rem',
+                      textAlign: 'center',
+                      background: '#ffffff',
+                      color: '#231c19',
+                      borderRadius: 12,
+                    }}
+                  >
+                    <QRCodeSVG
+                      id={`qr-${c.id}`}
+                      value={`${window.location.origin}/?card=${c.id}`}
+                      size={180}
+                    />
+                    <div style={{ marginTop: '0.75rem' }}>
+                      <button
+                        className="btn-primary btn-small"
+                        onClick={() => printQrCard(c)}
+                      >
+                        {t.printQr}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
                       )
                     }
                   >
